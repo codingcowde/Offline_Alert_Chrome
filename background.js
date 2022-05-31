@@ -10,6 +10,7 @@ chrome.runtime.onInstalled.addListener(
             if(result){
                 urls = result.urls;
             }else{
+                /// setting up example urls
                 urls = [{
                     "id":0,
                     "url":"https://bbtest.de/",
