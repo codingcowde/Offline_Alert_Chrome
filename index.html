@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Offline alert</title>
+    <meta charset="utf-8">    
+    <link rel="stylesheet" type="text/css" href="pixel_fonts.css">
+    <link rel="stylesheet" type="text/css" href="style.css">    
+  
+</head>
+<body>
+    <div class="wrapper">
+        <div class="title">
+            <h1>Offline Alert</h1>
+            
+           
+        </div>        
+        <div class="add_url_field"> 
+            <p>Add an URL to watch</p>
+            <form name="add_url_form" id="add_url_form">
+            <input type="url" name="url" id="url" placeholder="https://example.com:8080" required="required" />
+            <input type="submit" value="+" id="add_btn" class="btn">
+        </form>               
+        </div>        
+        <div class="content flex-col" id="url-card-view">       
+        </div>
+        <button id="toggle-list">View Url List</button>
+    </div>
+    <script src="script.js">
+        refresh()
+        document.onfocus = refresh()
+    </script>
+    
+</body>
+
+</html>
