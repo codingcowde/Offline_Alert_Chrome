@@ -1,9 +1,6 @@
-chrome.runtime.onload = refresh()
+chrome.runtime.onload = refresh() 
 
 var urls; 
-
-
-
 
 var toggle_view_btn = document.getElementById("toggle-list");
 if(toggle_view_btn){
@@ -27,28 +24,25 @@ function toggle_view(){
     }
 }
 
-
-
 function add_url(){
     new_url = document.getElementById("url").value; 
+    urls = urls.filter(data => data.url != new_url); // delete all existing entrys with same url
     new_name = new_url.replace("https://","").replace("http://","");
-    urls.push({'name':new_name, 'url':new_url, 'img':'img/32.png','status':0}) 
+    urls.push({'name':new_name, 'url':new_url, 'img':'img/32.png','status':0})     
     save();
     console.log(urls)
     refresh();    
-
 }
 
 function delete_url(){    
-        target = this;
-        console.log(this+" target "+target)
+        target = this;        
         urls = urls.filter(data => data.url != target.name)
         save();
         refresh();
         populate();
 }
 
-async function save(){    
+function save(){    
     chrome.storage.local.set({"urls":urls});  
 }
 
@@ -97,9 +91,8 @@ async function check_status(url, callback)
     xmlHttp.send();
 }
 
-async function refresh(){    
-    chrome.storage.local.get('urls',function(result){
-        console.log(result.urls);
+function refresh(){    
+    chrome.storage.local.get('urls',function(result){ 
         urls = result.urls;
-    })      
+    })          
 }
