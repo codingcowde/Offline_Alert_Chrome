@@ -81,23 +81,32 @@ h2{
     padding:15px;
 }
 
+.add_url_field *{
+    border: none;
+}
 
-.add_url_field > form{
+#add_url_form{
     display: grid;
     grid-template-columns: auto 32px;              
     background-color: var(--clr-dark);
     min-height: 32px;
 }
-.add_url_field *{
-    border: none;
+
+#add_url_form > input{
+    background-color: var(--clr-dark);
+    color: var(--clr-font-light);    
+    font-size: 16px;        
 }
-.add_url_field > form > input{
+#add_btn{
+    display: block;
+    width:100%;        
+    padding:9px;
     background-color: var(--clr-dark);
     color: var(--clr-font-light);    
     font-size: 16px;        
 }
 
-.btn:hover{
+#add_btn:hover{
     font-family: silkscreennormal;    
     background-color: var(--clr-font-ok); 
     color: var(--clr-font-light);

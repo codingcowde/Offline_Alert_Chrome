@@ -1,8 +1,7 @@
 {
     "name": "Offline Alert",    
     "description": "Checks if your sites are online and alerts you if not.",
-    "version": "1.0",
-    "manifest_version": 3,
+    "version": "1.0",    
     "author": "Uli Toll",
     "background":{
         "service_worker": "background.js"
@@ -28,5 +27,7 @@
         "32": "/img/32.png",
         "48": "/img/192.png",
         "128": "/img/192.png"
-      }   
+      },   
+    "manifest_version": 3
 }
+
