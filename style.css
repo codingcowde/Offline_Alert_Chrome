@@ -21,55 +21,59 @@
      --clr-dark: #555555FF;
      height: auto;
      scroll-behavior: smooth;
+     width: fit-content;
+     min-width: 400px;     
+     overflow: hidden;
 
  }
 
- body {
+ body, * {
      font-family: silkscreennormal;
      padding: 0;
-     margin: 0;
-     height: auto;
-
+     margin: 0; 
+    
  }
 
- * {
-     font-family: silkscreennormal;
- }
+ 
 
 
 
  /* II Layout */
- .wrapper {
-     min-height: fit-content;
-     height: auto;
 
-
-     font-size: 0.8rem;
-     width: fit-content;
-     min-width: 400px;
-     border: 1px solid black;
-     filter: drop-shadow(5px 5px 5px);
-     overflow: hidden;
+ header,
+ section,
+ footer{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;   
  }
 
- .content {
-     max-width: 600px;
-     overflow: auto;
-     margin: 0 auto;
-     gap: 15px 15px;
-     height: fit-content;
-     background-color: var(--clr-font-light);
+
+ header {     
+    position: sticky;  
+    padding-top: 15px;
+    gap: 15px;
+
+    background-color: var(--clr-prim);
+    color: var(--clr-font-light);
+    
+    border-bottom: 1px double black;
+}
+
+
+ 
+ section {
+      background-color: var(--clr-font-light);
+
  }
 
- .title {
-     position: sticky;
-     margin: 0px;
-     background-color: var(--clr-prim);
-     color: var(--clr-font-light);
-     padding: 15px;
-     text-align: center;
+ footer{    
+   
+    background-color: var(--clr-darker);
+    text-align: center;  
  }
 
+ 
  /* III Typography */
 
 
@@ -235,13 +239,15 @@
 
  /* the button in the footer to hide or display the saved urls*/
  #toggle-list {
-     width: 100%;
-     border: 0;
-     padding: 15px;
-     font-family: silkscreennormal;
-     color: var(--clr-font-light);
-     background-color: var(--clr-darker);
-     border: none;
+    
+  
+    width: 100%;    
+    padding: 15px;
+    font-family: silkscreennormal;
+    color: var(--clr-font-light);
+    
+    border: none;
+     
  }
 
  #toggle-list:hover,

@@ -7,23 +7,24 @@
     <link rel="stylesheet" type="text/css" href="style.css">      
 </head>
 <body>
-    <div class="wrapper">
-        <div class="title">
-            <h1>Offline Alert</h1>
-            
-           
-        </div>        
+    <header>        
+        <h1>Offline Alert</h1>
         <div class="add_url_field"> 
             <p>Add an URL to watch</p>
             <div id="add_url_form">
-            <input type="url" name="url" id="url" placeholder="https://example.com:8080" required="required" />
-            <button id="add_btn">+</button>
+                <input type="url" name="url" id="url" placeholder="https://example.com:8080" required="required" />
+                <button id="add_btn">+</button>
             </div>               
         </div>        
-        <div class="content flex-col" id="url-card-view">       
-        </div>
-        <button id="toggle-list">View Url List</button>
-    </div>
+    </header>    
+        
+        <section  id="url-card-view">       
+        </section>
+
+    <footer>
+        <a id="toggle-list">View Url List</a>
+    </footer>
+    
     <script src="script.js">
     </script>
     
