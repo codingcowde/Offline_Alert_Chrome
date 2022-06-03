@@ -33,12 +33,17 @@ function toggle_view() {
 }
 
 function add_url() {
+    // get the value from the input field
     new_url = document.getElementById("new_url").value;        
+
+    // check if input is valid and abort if not
     var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
     if(!expression.test(new_url)){
         alert('Enter a valid URL, please.')
-        return;
+        return; 
     }
+
+    // if input was valid clear the input field
     document.getElementById("new_url").value = '';
 
     // we need to find a better solution
@@ -48,21 +53,21 @@ function add_url() {
     // delete all existing entrys with same url
     urls = urls.filter(data => data.url != new_url); 
     
-    // add new url to urls
-    urls.push({ 'name': new_name, 'url': new_url, 'img': 'img/32.png', 'status': 0 })    
+    // add new url to urls    
+    urls.push({ 'name': new_name, 'url': new_url, 'img': 'img/32.png', 'status': 0 })  
+    
 
     // save to storage and reload view
     save_urls();
     refresh();
-    show_urls();
+    
 }
 
 function delete_url() {
     target = this;
     urls = urls.filter(data => data.url != target.name)
     save_urls();
-    refresh();
-    show_urls();
+    refresh(); 
 }
 
 function save_urls() {
@@ -75,40 +80,68 @@ function populate() {
     if (urls) {
         view.innerHTML = '';
         urls.forEach(url => {
-            let class_status = "status-400";
+            let class_status = "status-"+url.status;
             view.innerHTML += "<div class='url'> <ul><li><img id='img" + url.name + "' src='" + url.img + "' class='" + class_status + "'  /> </li><li><a class='" + class_status + "' href='" + url.url + "' target='_blank' id='link" + url.name + "'>" + url.name + "</a></li><li><button class='btn del_btn' name=" + url.url + ">del</button></li></ul></div>";
-            check_status(url.url, response => {
-                class_status = "status-" + response.status;
-                document.getElementById('img' + url.name).classList = class_status;
-                document.getElementById('link' + url.name).classList = class_status;
-            })
         });
-        var del_btns = document.getElementsByClassName("del_btn");
-        if (del_btns) {
-            console.log(del_btns)
-            for (let i = 0; i < del_btns.length; i++) {
-                del_btns.item(i).addEventListener("click", delete_url)
-            }
+        register_del_btn_events();
+    }
+}
+
+
+function register_del_btn_events() {
+    var del_btns = document.getElementsByClassName("del_btn");
+    if (del_btns) {        
+        for (let i = 0; i < del_btns.length; i++) {
+            del_btns.item(i).addEventListener("click", delete_url);
         }
     }
 }
 
+// we have to handle this here as the backend doesn't allow for html parsing - ToDo: go check the docs
+async function update_url(url) {
+    fetch(url.url)
+        .then((response) => {
+            url.status = response.status;            
+            return response.text()
+        })        
+        .then((html) => {
+            var parser = new DOMParser();
+            var response_dom = parser.parseFromString(html,"text/html");
+            var link_rels = response_dom.getElementsByTagName("link");
+            var icon_url;
+            for (let i = 0; i < link_rels.length; i++) {
+                if(link_rels.item(i).rel ==="icon"){
+                    // check how to get the ID of an extension within it's script and replace with variable solution                    
+                    icon_url = link_rels.item(i).href.replace("chrome-extension://bddbmakbdhfencffjfjljaenngiidoln",url.url);
+                    // there is no need for additional logic as the above line replaces only relative pathes found in the href
 
-async function check_status(url, callback) {
-    var xmlHttp = new XMLHttpRequest();
-
-    xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState == 4)
-            callback(xmlHttp);
-    }
-    xmlHttp.open("HEAD", url, true); // true for asynchronous 
-    xmlHttp.setRequestHeader("Access-Control-Allow-Origin", url)
-    xmlHttp.send();
+                    // set the icon for the url object
+                    url.img = icon_url;
+                    save_urls()
+                }
+            }            
+        })
+        .catch(function (err) {
+            console.log(err);
+            if(url.status === undefined) {
+                url.status = 0;
+            }
+            url.img = "./img/32.png";            
+            save_urls()            
+        });
 }
+
 
 function refresh() {
     chrome.storage.local.get('urls', function (result) {
         urls = result.urls;
+        update_urls();
         show_urls();
     });    
+}
+
+function update_urls() {
+    urls.forEach(url => {
+        update_url(url);
+    });
 }
