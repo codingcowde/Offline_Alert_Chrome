@@ -101,18 +101,18 @@
 
  /* add url UI */
 
- .add_url_field {
+ .add_url {
      background-color: var(--clr-darker);
      color: var(--clr-font-light);
  }
 
- .add_url_field>p {
+ .add_url p {
      text-align: center;
      margin: 0;
      padding: 15px;
  }
 
- .add_url_field * {
+ .add_url * {
      border: none;
  }
 
@@ -129,7 +129,7 @@
      font-size: 16px;
  }
 
- #add_btn {
+ #add_url_btn {
      display: block;
      width: 100%;
      padding: 9px;
@@ -138,8 +138,8 @@
      font-size: 16px;
  }
 
- #add_btn:hover,
- #add_btn:focus {
+ #add_url_btn:hover,
+ #add_url_btn:focus {
      font-family: silkscreennormal;
      background-color: var(--clr-font-ok);
      color: var(--clr-font-light);
@@ -147,7 +147,7 @@
 
  /* url-card */
 
- .url-card {
+ .url {
      padding: 0px;
      margin: 0px;
      border: none;
@@ -157,7 +157,7 @@
      background-color: var(--clr-dark);
  }
 
- .url-card ul {
+ .url ul {
      display: grid;
      grid-template-columns: 48px auto 48px;
      text-decoration: none;
@@ -167,11 +167,11 @@
      overflow: hidden;
  }
 
- .url-card li{
+ .url li{
      height:48px;
 
  }
- .url-card img{
+ .url img{
     margin: 4px;    
     border-radius: 50%;
     border: 3px solid;    
@@ -179,7 +179,7 @@
 }
 
 
- .url-card a {
+ .url a {
      display: block;
      position: absolute;
      left: 48px;
@@ -191,25 +191,25 @@
      text-decoration: none;
  }
 
- .url-card:hover,
- .url-card:focus {
+ .url:hover,
+ .url:focus {
      box-shadow: inset 0 0 10px -1px var(--clr-font-light);
      filter: drop-shadow(2px 2px 2px)
  }
 
- .url-card:hover ul,
- .url-card:focus ul {
+ .url:hover ul,
+ .url:focus ul {
      filter: drop-shadow(2px 2px 2px)
  }
 
- .url-card:hover a,
- .url-card:focus a {
+ .url:hover a,
+ .url:focus a {
      font-size: 20px;
      left: 20%;
      font-weight: 400;
  }
 
- .url-card button {
+ .url button {
      width: 36px;
      height: 36px;
      position: absolute;
@@ -221,8 +221,8 @@
      background-color: var(--clr-darker);
  }
 
- .url-card:hover button, 
- .url-card:focus button{
+ .url:hover button, 
+ .url:focus button{
      margin: 6px;
      right: 3px;
      border-radius: 50%;
@@ -230,15 +230,15 @@
      color: var(--clr-font-light);
  }
 
- .url-card button:hover,
- .url-card button:focus {
+ .url button:hover,
+ .url button:focus {
      background-color: var(--extrem-orange);
      border-color: var(--extrem-orange);
      box-shadow: 0 0 5px 2px var(--extrem-orange);
  }
 
  /* the button in the footer to hide or display the saved urls*/
- #toggle-list {
+ #toggle-list-btn {
     
   
     width: 100%;    
@@ -250,10 +250,10 @@
      
  }
 
- #toggle-list:hover,
- #toggle-list:focus,
- .add_url_field:hover p,
- .add_url_field:focus p {
+ #toggle-list-btn:hover,
+ #toggle-list-btn:focus,
+ .add_url:hover p,
+ .add_url:focus p {
      color: var(--clr-font-ok);
      filter: drop-shadow(4px 4px 4px);
  }

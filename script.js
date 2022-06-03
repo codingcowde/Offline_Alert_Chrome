@@ -2,12 +2,12 @@ chrome.runtime.onload = refresh()
 
 var urls;
 
-var toggle_view_btn = document.getElementById("toggle-list");
+var toggle_view_btn = document.getElementById("toggle-list-btn");
 if (toggle_view_btn) {
     toggle_view_btn.addEventListener("click", toggle_view);
 }
 
-var add_btn = document.getElementById("add_btn");
+var add_btn = document.getElementById("add_url_btn");
 if (add_btn) {
     add_btn.addEventListener("click", add_url);
 }
@@ -24,7 +24,7 @@ function hide_urls() {
 }
 
 function toggle_view() {
-    view = document.getElementById("url-card-view")
+    view = document.getElementById("urls-view")
     if (toggle_view_btn.innerText === "View Url List") {
        show_urls()
     } else if (toggle_view_btn.innerText === "Hide Url List") {
@@ -33,8 +33,8 @@ function toggle_view() {
 }
 
 function add_url() {
-    new_url = document.getElementById("url").value;    
-    document.getElementById("url").value = '';
+    new_url = document.getElementById("new_url").value;    
+    document.getElementById("new_url").value = '';
     urls = urls.filter(data => data.url != new_url); // delete all existing entrys with same url
     new_name = new_url.replace("https://", "").replace("http://", "");
     urls.push({ 'name': new_name, 'url': new_url, 'img': 'img/32.png', 'status': 0 })    
@@ -57,12 +57,12 @@ function save() {
 
 
 function populate() {
-    view = document.getElementById("url-card-view")
+    view = document.getElementById("urls-view")
     if (urls) {
         view.innerHTML = '';
         urls.forEach(url => {
             let class_status = "status-400";
-            view.innerHTML += "<div class='url-card'> <ul><li><img id='img" + url.name + "' src='" + url.img + "' class='" + class_status + "'  /> </li><li><a class='" + class_status + "' href='" + url.url + "' target='_blank' id='link" + url.name + "'>" + url.name + "</a></li><li><button class='btn del_btn' name=" + url.url + ">del</button></li></ul></div>";
+            view.innerHTML += "<div class='url'> <ul><li><img id='img" + url.name + "' src='" + url.img + "' class='" + class_status + "'  /> </li><li><a class='" + class_status + "' href='" + url.url + "' target='_blank' id='link" + url.name + "'>" + url.name + "</a></li><li><button class='btn del_btn' name=" + url.url + ">del</button></li></ul></div>";
             check_status(url.url, response => {
                 class_status = "status-" + response.status;
                 document.getElementById('img' + url.name).classList = class_status;
