@@ -1,7 +1,7 @@
 {
     "name": "Offline Alert",    
     "description": "Checks if your sites are online and alerts you if not.",
-    "version": "1.0",    
+    "version": "0.0.0.2",    
     "author": "Uli Toll",
     "background":{
         "service_worker": "background.js"
