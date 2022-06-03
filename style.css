@@ -53,22 +53,16 @@
     position: sticky;  
     padding-top: 15px;
     gap: 15px;
-
     background-color: var(--clr-prim);
-    color: var(--clr-font-light);
-    
+    color: var(--clr-font-light);    
     border-bottom: 1px double black;
 }
-
-
  
  section {
       background-color: var(--clr-font-light);
-
  }
 
- footer{    
-   
+ footer{       
     background-color: var(--clr-darker);
     text-align: center;  
  }
@@ -238,14 +232,11 @@
  }
 
  /* the button in the footer to hide or display the saved urls*/
- #toggle-list-btn {
-    
-  
+ #toggle-list-btn {  
     width: 100%;    
-    padding: 15px;
+    padding: 15px 0px 15px 0px;
     font-family: silkscreennormal;
-    color: var(--clr-font-light);
-    
+    color: var(--clr-font-light);    
     border: none;
      
  }
