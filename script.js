@@ -112,7 +112,7 @@ async function update_url(url) {
             for (let i = 0; i < link_rels.length; i++) {
                 if(link_rels.item(i).rel ==="icon"){
                     // check how to get the ID of an extension within it's script and replace with variable solution                    
-                    icon_url = link_rels.item(i).href.replace("chrome-extension://bddbmakbdhfencffjfjljaenngiidoln",url.url);
+                    icon_url = link_rels.item(i).href.replace("chrome-extension://",url.url);
                     // there is no need for additional logic as the above line replaces only relative pathes found in the href
 
                     // set the icon for the url object
