@@ -33,12 +33,26 @@ function toggle_view() {
 }
 
 function add_url() {
-    new_url = document.getElementById("new_url").value;    
+    new_url = document.getElementById("new_url").value;        
+    var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
+    if(!expression.test(new_url)){
+        alert('Enter a valid URL, please.')
+        return;
+    }
     document.getElementById("new_url").value = '';
-    urls = urls.filter(data => data.url != new_url); // delete all existing entrys with same url
+
+    // we need to find a better solution
     new_name = new_url.replace("https://", "").replace("http://", "");
+    new_url = 'https://' + new_name;
+    
+    // delete all existing entrys with same url
+    urls = urls.filter(data => data.url != new_url); 
+    
+    // add new url to urls
     urls.push({ 'name': new_name, 'url': new_url, 'img': 'img/32.png', 'status': 0 })    
-    save();
+
+    // save to storage and reload view
+    save_urls();
     refresh();
     show_urls();
 }
@@ -46,18 +60,18 @@ function add_url() {
 function delete_url() {
     target = this;
     urls = urls.filter(data => data.url != target.name)
-    save();
+    save_urls();
     refresh();
     show_urls();
 }
 
-function save() {
+function save_urls() {
     chrome.storage.local.set({ "urls": urls });
 }
 
 
 function populate() {
-    view = document.getElementById("urls-view")
+    view = document.getElementById("urls-view");
     if (urls) {
         view.innerHTML = '';
         urls.forEach(url => {
