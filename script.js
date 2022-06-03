@@ -109,17 +109,26 @@ async function update_url(url) {
             var response_dom = parser.parseFromString(html,"text/html");
             var link_rels = response_dom.getElementsByTagName("link");
             var icon_url;
+            var icon_url_fallback = "./img/32.png";    
+
+            // get the favicon and possible fallbacks       
             for (let i = 0; i < link_rels.length; i++) {
                 if(link_rels.item(i).rel ==="icon"){
-                    // there is no need for additional logic as the below line replaces only relative pathes found in the href
-                    icon_url = link_rels.item(i).href.replace("chrome-extension://"+chrome.runtime.id,url.url);
-                    
-
-                    // set the icon for the url object
-                    url.img = icon_url;
-                    save_urls()
+                    // there is no need for additional logic as the above line replaces only relative pathes found in the href
+                    icon_url = link_rels.item(i).href.replace("chrome-extension://"+chrome.runtime.id,url.url);                   
+                }
+                if(link_rels.item(i).rel.indexOf("icon") >= 0 || link_rels.item(i).rel === "apple-touch" ){
+                    // there is no need for additional logic as the above line replaces only relative pathes found in the href
+                    icon_url_fallback = link_rels.item(i).href.replace("chrome-extension://"+chrome.runtime.id,url.url);                   
                 }
             }            
+            // set the icon for the url object
+            if(icon_url){
+                url.img = icon_url;                
+            } else {
+                url.img = icon_url_fallback;                
+            }
+            save_urls()
         })
         .catch(function (err) {
             console.log(err);
