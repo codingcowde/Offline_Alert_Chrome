@@ -62,10 +62,19 @@ function add_url() {
     refresh();
     
 }
-
+// called by the del_btn click event
 function delete_url() {
     target = this;
     urls = urls.filter(data => data.url != target.name)
+    save_urls();
+    refresh(); 
+}
+
+// called by the mute buttons click event
+function mute_url_notification() {
+    target = this;
+    url = urls.filter(data => data.url = target.name)[0];
+    url.mute = true;
     save_urls();
     refresh(); 
 }
@@ -81,7 +90,14 @@ function populate() {
         view.innerHTML = '';
         urls.forEach(url => {
             let class_status = "status-"+url.status;
-            view.innerHTML += "<div class='url'> <ul><li><img id='img" + url.name + "' src='" + url.img + "' class='" + class_status + "'  /> </li><li><a class='" + class_status + "' href='" + url.url + "' target='_blank' id='link" + url.name + "'>" + url.name + "</a></li><li><button class='btn del_btn' name=" + url.url + ">del</button></li></ul></div>";
+            view.innerHTML += "<div class='url'> <ul><li><img id='img" +
+            url.name + "' src='" + url.img + "' class='" + class_status +
+             "'  /> </li><li><a class='" + class_status + "' href='" + url.url + 
+             "' target='_blank' id='link" + url.name + "'>" + url.name + 
+             "</a></li><li>"+       
+             "<button class='btn mute_btn' name=" + url.url + ">mt</button>"+
+             "<button class='btn del_btn' name=" + url.url + ">del</button>"+
+             "</li></ul></div>";
         });
         register_del_btn_events();
     }

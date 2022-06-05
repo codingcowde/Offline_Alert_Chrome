@@ -22,13 +22,16 @@ chrome.runtime.onInstalled.addListener(
                     "url": "https://checker.codingcow.de",
                     "img": "https://checker.codingcow.de/res/img/favicon-32x32.png",
                     "name": "CHecker.codingcow.de",
-                    "status": 0
+                    "status": 0,
+                    "mute": false
                 },
                 {                    
                     "url": "https://codingcow.de",
                     "img": "https://codingcow.de/res/img/favicon-32x32.png",
                     "name": "codingcow.de",
-                    "status": 0
+                    "status": 0,
+                    "mute": false
+
                 }]
             }
             chrome.storage.local.set({ "urls": urls });
@@ -37,8 +40,8 @@ chrome.runtime.onInstalled.addListener(
 
 // setup the timer ToDo make configurable with fixed options 1min 5min 10min 1h
 chrome.alarms.create("5min", {
-    delayInMinutes: 5,
-    periodInMinutes: 5
+    delayInMinutes: 0.5,
+    periodInMinutes: 0.5
 });
 
 // register alarm listener
@@ -77,14 +80,14 @@ async function check_status(url) {
 
 // Push Notification
 function push_notification(url) {
-    if(url === undefined){
+    if(url === undefined || url.mute){
         return;
     }
     const notification_id = 'url'+url.name+'?status='+url.status;
 
     const notification_options = {
         type: 'basic',
-        iconUrl: 'img/512.png',
+        iconUrl: url.img,
         title: 'Your Page '+url.name+' is not responding!',
         message: 'We got a status of '+url.status+' which means we could not reach the server '+url.url+'.'
     };
