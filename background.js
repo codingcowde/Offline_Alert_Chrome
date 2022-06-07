@@ -52,7 +52,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
 });
 
 // iterate urls and run check_status on them
-function check_urls() {   
+function check_urls() {      
     urls.forEach(url => {
         check_status(url);
     });
@@ -67,8 +67,7 @@ async function check_status(url) {
             console.log(url.name+" is live ans shows "+ url.status)         
           
         })
-        .catch(function (err) {
-            console.log("fire");
+        .catch(function (err) {            
             if(url.status === undefined) {
                 url.status = 0;
             }
@@ -80,7 +79,10 @@ async function check_status(url) {
 
 // Push Notification
 function push_notification(url) {
+    console.log("No notification sent as url.mute is"+url.mute)
+
     if(url === undefined || url.mute){
+        console.log("No notification sent as url.mute is"+url.mute)
         return;
     }
     const notification_id = 'url'+url.name+'?status='+url.status;
@@ -89,17 +91,25 @@ function push_notification(url) {
         type: 'basic',
         iconUrl: url.img,
         title: 'Your Page '+url.name+' is not responding!',
-        message: 'We got a status of '+url.status+' which means we could not reach the server '+url.url+'.'
+        message: 'We got a status of '+url.status+' which means we could not reach the server '+url.url+'.',        
+        contextMessage: 'You can mute this URL while you are fixing the issue or delete the URL if your no longer responsible',
+        buttons: [{
+            title: "Mute"
+          //  iconUrl: "/path/to/yesIcon.png"
+        }, {
+            title: "Delete"
+            //iconUrl: "/path/to/noIcon.png"
+        }]
     };
     chrome.notifications.create(notification_id, notification_options);  
 }
 
 // Functions to save, load and delete from local storage
-function save_urls() {
+async function save_urls() {
     chrome.storage.local.set({ "urls": urls });
 }
 
-function load_urls(){
+async function load_urls(){
     chrome.storage.local.get("urls", function (result) {
         urls = result.urls
     })

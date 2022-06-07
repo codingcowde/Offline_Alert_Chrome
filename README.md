@@ -4,11 +4,12 @@ A Chrome Extension that automatically checks the state of your webhosts and push
 
 # ToDo
 
-Add notifications
-Add Settings
-Add Script to retrieve favicons of webpages
+Fix Notifications 
 
-Remove frontend AJAX dinosaurs
-Change storage API from local to sync
+Fix storage and messages between back and frontend
 
-Clean up Javascript 
+Complete Settings
+
+Change storage API from local to sync 
+
+
