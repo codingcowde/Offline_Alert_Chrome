@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 chrome.runtime.onInstalled.addListener(
     function () {
-        chrome.storage.local.get("urls", function (result) {
+        chrome.storage.sync.get("urls", function (result) {
             if (result) {
                 urls = result.urls;
             } else {
@@ -40,14 +40,14 @@ chrome.runtime.onInstalled.addListener(
 
                 }]
             }
-            chrome.storage.local.set({ "urls": urls });
+            chrome.storage.sync.set({ "urls": urls });
         })
     })
 
 // setup the timer ToDo make configurable with fixed options 1min 5min 10min 1h
 chrome.alarms.create("5min", {
-    delayInMinutes: 5,
-    periodInMinutes: 5
+    delayInMinutes: 0.5,
+    periodInMinutes: 0.5
 });
 
 // register alarm listener
@@ -69,6 +69,9 @@ function check_urls() {
 
 // this function checks the status of all stored urls
 async function check_status(url) {
+    if(url.mute){
+        return; // remove when implementing statistics
+    }
     fetch(url.url)
         .then((response) => {
             url.status = response.status;            
@@ -83,14 +86,14 @@ async function check_status(url) {
             save_urls()
             push_notification(url);            
             
-        });}
+        })
+    }
 
 
 // Push Notification
 function push_notification(url) {    
 
-    if(url === undefined || url.mute){
-        console.log("No notification sent as url.mute is"+url.mute+" or url is "+url)
+    if(url === undefined || url.mute){      
         return;
     }
     const notification_id = 'url'+url.name+'?status='+url.status;
@@ -113,12 +116,12 @@ function push_notification(url) {
 }
 
 // Functions to save, load and delete from local storage
-async function save_urls() {
-    chrome.storage.local.set({ "urls": urls });
+function save_urls() {
+    chrome.storage.sync.set({ "urls": urls });
 }
 
-async function load_urls(){
-    chrome.storage.local.get("urls", function (result) {
+function load_urls(){
+    chrome.storage.sync.get("urls", function (result) {
         urls = result.urls
         return result.urls
     })

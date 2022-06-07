@@ -83,6 +83,22 @@ function toggle_mute_url_notification() {
     refresh(); 
 }
 
+function toggle_url_settings() {
+    target = this;       
+    settings_box = document.getElementById("url-settings-"+this.name);
+    if(settings_box.classList == "url-settings hidden"){
+        settings_box.classList = "url-settings visible";
+        return;
+    }
+    if(settings_box.classList == "url-settings visible"){
+        settings_box.classList ="url-settings hidden";
+        return;
+    }      
+    
+    //refresh(); 
+}
+
+
 function save_urls() {
     chrome.storage.sync.set({ "urls": urls });
 }
@@ -97,21 +113,32 @@ function populate() {
             let class_muted = url.mute ? "muted":"mute";                       
             view.innerHTML += "<div class='url'> <ul><li><img id='img" +
             url.name + "' src='" + url.img + "' class='" + class_status +
-             "'  /> </li><li><a class='" + class_status + "' href='" + url.url + 
+             "'  /> </li><li><a class='" + class_status +" url-"+class_muted+" ' href='" + url.url + 
              "' target='_blank' id='link" + url.name + "'>" + url.name + 
              "</a></li><li>"+       
+             "<button class='btn settings' name='" + url.url + "' />"+
              "<button class='btn "+class_muted+"' name='" + url.url + "' />"+
              "<button class='btn delete' name='" + url.url + "' />"+
-             "</li></ul></div>";
+             "</li></ul>"+
+             "<div class='url-settings hidden' id='url-settings-"+url.url+"'>"+
+             "<div>"+
+             "<input type='url' value='"+url.url+"'>"+
+             "<input type='text' value='"+url.name+"'>"+
+             "<input type='url' value='"+url.img+"'>"+
+             "status: "+url.status+             
+             "</div>"+
+             "</div>"+
+             "</div>";
         });
         register_delete_button_events();
         register_mute_button_events();
+        register_settings_button_events();
     }
 }
 
 
 function register_delete_button_events() {
-    let delete_buttons = document.getElementsByClassName("delete");
+    let delete_buttons = document.getElementsByClassName("btn delete");
     if (delete_buttons) {        
         for (let i = 0; i < delete_buttons.length; i++) {
             delete_buttons.item(i).addEventListener("click", delete_url);            
@@ -120,8 +147,8 @@ function register_delete_button_events() {
 }
 
 function register_mute_button_events() {
-    let mute_buttons = document.getElementsByClassName("mute");     
-    let muted_buttons = document.getElementsByClassName("muted");     
+    let mute_buttons = document.getElementsByClassName("btn mute");     
+    let muted_buttons = document.getElementsByClassName("btn muted");     
     if (mute_buttons || muted_buttons) {        
         for (let ji = 0; ji < mute_buttons.length; ji++) {
             mute_buttons.item(ji).addEventListener("click", toggle_mute_url_notification);                     
@@ -131,6 +158,16 @@ function register_mute_button_events() {
         }        
     }
 }
+
+function register_settings_button_events() {
+    let settings_buttons = document.getElementsByClassName("btn settings");
+    if (settings_buttons) {        
+        for (let i = 0; i < settings_buttons.length; i++) {
+            settings_buttons.item(i).addEventListener("click", toggle_url_settings);            
+        }
+    }
+}
+
 
 
 // we have to handle this here as the backend doesn't allow for html parsing - ToDo: go check the docs
@@ -186,8 +223,7 @@ function refresh() {
 }
 
 function update_urls() {
-    urls.forEach(url => {
-       
+    urls.forEach(url => {       
         update_url(url);
     });
 }
