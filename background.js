@@ -40,8 +40,8 @@ chrome.runtime.onInstalled.addListener(
 
 // setup the timer ToDo make configurable with fixed options 1min 5min 10min 1h
 chrome.alarms.create("5min", {
-    delayInMinutes: 0.5,
-    periodInMinutes: 0.5
+    delayInMinutes: 5,
+    periodInMinutes: 5
 });
 
 // register alarm listener
