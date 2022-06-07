@@ -15,17 +15,20 @@ if (add_btn) {
 
 function show_urls() {    
     toggle_view_btn.innerText = "Hide Url List";            
+    toggle_view_btn.classList="list_shown";
     populate()
 }
 
 function hide_urls() {    
     toggle_view_btn.innerText = "View Url List";            
+    toggle_view_btn.classList="list_hidden";
     view.innerHTML = '';
 }
 
 function toggle_view() {
     view = document.getElementById("urls-view")
     if (toggle_view_btn.innerText === "View Url List") {
+        
        show_urls()
     } else if (toggle_view_btn.innerText === "Hide Url List") {
         hide_urls()
@@ -90,25 +93,26 @@ function populate() {
         view.innerHTML = '';
         urls.forEach(url => {
             let class_status = "status-"+url.status;
+            let class_muted = url.muted ? "muted":"mute";                       
             view.innerHTML += "<div class='url'> <ul><li><img id='img" +
             url.name + "' src='" + url.img + "' class='" + class_status +
              "'  /> </li><li><a class='" + class_status + "' href='" + url.url + 
              "' target='_blank' id='link" + url.name + "'>" + url.name + 
              "</a></li><li>"+       
-             "<button class='btn mute_btn' name=" + url.url + ">mt</button>"+
-             "<button class='btn del_btn' name=" + url.url + ">del</button>"+
+             "<button class='btn "+class_muted+"' name=" + url.url + "/>"+
+             "<button class='btn delete' name=" + url.url + " />"+
              "</li></ul></div>";
         });
-        register_del_btn_events();
+        register_delete_button_events();
     }
 }
 
 
-function register_del_btn_events() {
-    var del_btns = document.getElementsByClassName("del_btn");
-    if (del_btns) {        
-        for (let i = 0; i < del_btns.length; i++) {
-            del_btns.item(i).addEventListener("click", delete_url);
+function register_delete_button_events() {
+    var delete_buttons = document.getElementsByClassName("delete");
+    if (delete_buttons) {        
+        for (let i = 0; i < delete_buttons.length; i++) {
+            delete_buttons.item(i).addEventListener("click", delete_url);
         }
     }
 }

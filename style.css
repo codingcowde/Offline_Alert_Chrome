@@ -33,6 +33,22 @@
      margin: 0;     
  }
 
+::-webkit-scrollbar{
+    background-color: var(--clr-darker);
+    width: 1rem;
+    height: 1rem;
+    
+    
+}
+::-webkit-scrollbar-thumb{
+    background-color: var(--clr-dark);        
+    border: 1px solid var(--clr-darker);
+    
+}
+::-webkit-scrollbar-thumb:hover{
+    background-color: var(--clr-darker);    
+    border: 1px solid var(--clr-font-light);    
+}
 
 
  /* II Layout */
@@ -128,6 +144,11 @@
      background-color: var(--clr-dark);
      color: var(--clr-font-light);     
  }
+ #add_url_btn::before{
+    font-family: 'IcoFont';
+    content: '\ec3e';
+
+ }
 
  #add_url_btn:hover,
  #add_url_btn:focus {     
@@ -197,8 +218,8 @@
      left: 0rem;
      font-weight: 600;
  }
- .mute_btn,
- .del_btn {
+ 
+ .btn {
      width: 2.1rem;
      height: 2.1rem;     
      position: absolute;
@@ -206,31 +227,53 @@
      border-radius: 50%;
      opacity: 0;
      background-color: var(--clr-darker);
+     color: --clr-font-light;
+     font-family: "IcoFont";
+     font-size: 1.2rem;
  }
 
-.del_btn {
-     transition:  opacity 300ms ease-in-out, right 300ms ease-in; 
-     right: -100px;
-     
+.delete {
+     transition: right 300ms ease-in; 
+     right: -100px;     
  }
 
- .mute_btn{
-    transition:  opacity 400ms ease-in-out, top 600ms ease-in; 
+ .delete::before{
+     content:"\ec53"
+ }
+
+ .mute,
+ .muted{
+    transition: top 400ms ease-in; 
     top: -100vh;    
-    right: 2.5rem;          
+    right: 2.8rem;              
 }
-.url:hover .mute_btn, 
- .url:focus .mute_btn,
- .url:hover .del_btn, 
- .url:focus .del_btn{
-     margin: 0.4rem;
+
+.mute::before{
+    content:"\ec94";
+}
+.muted::before{
+    content: "\ecb8";    
+}
+
+
+.settings::before{
+    content: '\ef3a';
+}
+
+.url:hover .mute, 
+ .url:focus .mute,
+ .url:hover .muted, 
+ .url:focus .muted,
+ .url:hover .delete, 
+ .url:focus .delete{
+     margin: .6rem;
      top: 0;
      opacity: 1;
      color: var(--clr-font-light);
  }
 
- .url:hover .del_btn, 
- .url:focus .del_btn{     
+ .url:hover .delete, 
+ .url:focus .delete{     
      right: 0.2rem; 
  }
 
@@ -248,6 +291,7 @@
     padding: 15px 0px 15px 0px;
     color: var(--clr-font-light);    
     border: none;
+    text-align: left;
      
  }
 
@@ -257,6 +301,27 @@
  .add_url:focus p {
      color: var(--clr-font-ok);
      filter: drop-shadow(4px 4px 4px);
+ }
+
+
+
+ .list_shown::before,
+ .list_hidden::before{    
+    font-family: 'IcoFont';
+    font-size: 1rem;
+    padding:1rem;
+    margin-right:10rem;
+    
+ }
+
+ .list_shown::before{
+    content: "\eab9";
+
+ }
+ 
+ .list_hidden::before{
+ 
+    content: "\eab2";
  }
 
 
