@@ -1,13 +1,13 @@
 chrome.runtime.onload = refresh()
 
-var urls;
+let urls;
 
-var toggle_view_btn = document.getElementById("toggle-list-btn");
+let toggle_view_btn = document.getElementById("toggle-list-btn");
 if (toggle_view_btn) {
     toggle_view_btn.addEventListener("click", toggle_view);
 }
 
-var add_btn = document.getElementById("add_url_btn");
+let add_btn = document.getElementById("add_url_btn");
 if (add_btn) {
     add_btn.addEventListener("click", add_url);
 }
@@ -40,7 +40,7 @@ function add_url() {
     new_url = document.getElementById("new_url").value;        
 
     // check if input is valid and abort if not
-    var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
+    let expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
     if(!expression.test(new_url)){
         alert('Enter a valid URL, please.')
         return; 
@@ -84,7 +84,7 @@ function toggle_mute_url_notification() {
 }
 
 function save_urls() {
-    chrome.storage.local.set({ "urls": urls });
+    chrome.storage.sync.set({ "urls": urls });
 }
 
 
@@ -111,7 +111,7 @@ function populate() {
 
 
 function register_delete_button_events() {
-    var delete_buttons = document.getElementsByClassName("delete");
+    let delete_buttons = document.getElementsByClassName("delete");
     if (delete_buttons) {        
         for (let i = 0; i < delete_buttons.length; i++) {
             delete_buttons.item(i).addEventListener("click", delete_url);            
@@ -120,8 +120,8 @@ function register_delete_button_events() {
 }
 
 function register_mute_button_events() {
-    var mute_buttons = document.getElementsByClassName("mute");     
-    var muted_buttons = document.getElementsByClassName("muted");     
+    let mute_buttons = document.getElementsByClassName("mute");     
+    let muted_buttons = document.getElementsByClassName("muted");     
     if (mute_buttons || muted_buttons) {        
         for (let ji = 0; ji < mute_buttons.length; ji++) {
             mute_buttons.item(ji).addEventListener("click", toggle_mute_url_notification);                     
@@ -141,11 +141,11 @@ async function update_url(url) {
             return response.text()
         })        
         .then((html) => {
-            var parser = new DOMParser();
-            var response_dom = parser.parseFromString(html,"text/html");
-            var link_rels = response_dom.getElementsByTagName("link");
-            var icon_url;
-            var icon_url_fallback = "./img/32.png";    
+            let parser = new DOMParser();
+            let response_dom = parser.parseFromString(html,"text/html");
+            let link_rels = response_dom.getElementsByTagName("link");
+            let icon_url;
+            let icon_url_fallback = "./img/32.png";    
 
             // get the favicon and possible fallbacks       
             for (let i = 0; i < link_rels.length; i++) {
@@ -178,7 +178,7 @@ async function update_url(url) {
 
 
 function refresh() {
-    chrome.storage.local.get('urls', function (result) {
+    chrome.storage.sync.get('urls', function (result) {
         urls = result.urls;
         update_urls();
         show_urls();

@@ -1,15 +1,21 @@
+let urls;
+
 chrome.runtime.onload = function (){
     load_urls()
     check_urls()
 }
 
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {   
+    if(request.type === "save_urls" && request.urls){
+        urls = request.urls;
+        save_urls();        
+    } 
+    if(request.type === "load_urls" && request.urls){
+        const res = load_urls();
+        sendResponse(res);        
+        } 
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
-
-/// chrome.notifications.onShowSettings.addListener()
-
-let urls;
 
 chrome.runtime.onInstalled.addListener(
     function () {
@@ -47,15 +53,18 @@ chrome.alarms.create("5min", {
 // register alarm listener
 chrome.alarms.onAlarm.addListener(function (alarm) {
     if (alarm.name === "5min") {
+        load_urls()
         check_urls()
     }
 });
 
 // iterate urls and run check_status on them
 function check_urls() {      
-    urls.forEach(url => {
-        check_status(url);
-    });
+    if(urls){
+       urls.forEach(url => {
+            check_status(url);
+        });
+    }
 }
 
 // this function checks the status of all stored urls
@@ -78,11 +87,10 @@ async function check_status(url) {
 
 
 // Push Notification
-function push_notification(url) {
-    console.log("No notification sent as url.mute is"+url.mute)
+function push_notification(url) {    
 
     if(url === undefined || url.mute){
-        console.log("No notification sent as url.mute is"+url.mute)
+        console.log("No notification sent as url.mute is"+url.mute+" or url is "+url)
         return;
     }
     const notification_id = 'url'+url.name+'?status='+url.status;
@@ -112,5 +120,6 @@ async function save_urls() {
 async function load_urls(){
     chrome.storage.local.get("urls", function (result) {
         urls = result.urls
+        return result.urls
     })
 }
