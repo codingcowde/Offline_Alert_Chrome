@@ -57,8 +57,7 @@ function add_url() {
     urls = urls.filter(data => data.url != new_url); 
     
     // add new url to urls    
-    urls.push({ 'name': new_name, 'url': new_url, 'img': 'img/32.png', 'status': 0 })  
-    
+    urls.push({ 'name': new_name, 'url': new_url, 'img': 'img/32.png', 'status': 0, 'mute':false})      
 
     // save to storage and reload view
     save_urls();
@@ -74,10 +73,12 @@ function delete_url() {
 }
 
 // called by the mute buttons click event
-function mute_url_notification() {
-    target = this;
-    url = urls.filter(data => data.url = target.name)[0];
-    url.mute = true;
+function toggle_mute_url_notification() {
+    target = this;    
+    // get the selected url 
+    url = urls.filter(data => data.url === target.name)[0];    
+    // check if mute true false or undefined and reverse value
+    url.mute = url.mute === undefined ? true : !url.mute;        
     save_urls();
     refresh(); 
 }
@@ -93,17 +94,18 @@ function populate() {
         view.innerHTML = '';
         urls.forEach(url => {
             let class_status = "status-"+url.status;
-            let class_muted = url.muted ? "muted":"mute";                       
+            let class_muted = url.mute ? "muted":"mute";                       
             view.innerHTML += "<div class='url'> <ul><li><img id='img" +
             url.name + "' src='" + url.img + "' class='" + class_status +
              "'  /> </li><li><a class='" + class_status + "' href='" + url.url + 
              "' target='_blank' id='link" + url.name + "'>" + url.name + 
              "</a></li><li>"+       
-             "<button class='btn "+class_muted+"' name=" + url.url + "/>"+
-             "<button class='btn delete' name=" + url.url + " />"+
+             "<button class='btn "+class_muted+"' name='" + url.url + "' />"+
+             "<button class='btn delete' name='" + url.url + "' />"+
              "</li></ul></div>";
         });
         register_delete_button_events();
+        register_mute_button_events();
     }
 }
 
@@ -112,10 +114,24 @@ function register_delete_button_events() {
     var delete_buttons = document.getElementsByClassName("delete");
     if (delete_buttons) {        
         for (let i = 0; i < delete_buttons.length; i++) {
-            delete_buttons.item(i).addEventListener("click", delete_url);
+            delete_buttons.item(i).addEventListener("click", delete_url);            
         }
     }
 }
+
+function register_mute_button_events() {
+    var mute_buttons = document.getElementsByClassName("mute");     
+    var muted_buttons = document.getElementsByClassName("muted");     
+    if (mute_buttons || muted_buttons) {        
+        for (let ji = 0; ji < mute_buttons.length; ji++) {
+            mute_buttons.item(ji).addEventListener("click", toggle_mute_url_notification);                     
+        }        
+        for (let j = 0; j < muted_buttons.length; j++) {
+            muted_buttons.item(j).addEventListener("click", toggle_mute_url_notification);                     
+        }        
+    }
+}
+
 
 // we have to handle this here as the backend doesn't allow for html parsing - ToDo: go check the docs
 async function update_url(url) {
@@ -171,6 +187,7 @@ function refresh() {
 
 function update_urls() {
     urls.forEach(url => {
+       
         update_url(url);
     });
 }
