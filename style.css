@@ -164,7 +164,7 @@
  #add_url_btn:hover,
  #add_url_btn:focus {     
      background-color: var(--clr-font-ok);
-     color: var(--clr-font-light);
+     color: var(--clr-darker);
  }
 
  /* url-card */
@@ -302,7 +302,7 @@
     
 }
 .settings::before{
-    content: '\ef3a';
+    content: '\ef3a';    
 }
 
 
@@ -315,7 +315,8 @@
  .url:hover .muted, 
  .url:focus .muted
 {
-    right: 2.8rem;              
+    right: 2.8rem;   
+    
 }
 
 .url:hover .settings, 
@@ -329,20 +330,39 @@
      margin: .6rem;
      top: 0;
      opacity: 1;
-     color: var(--clr-font-light);
+     color: var(--clr-font-light);     
+     
  }
 
  .url:hover .delete, 
- .url:focus .delete{     
-     right: 0.2rem; 
+ .url:focus .delete{
+    color: var(--clr-font-light);     
+    right: 0.2rem; 
  }
 
 
  .url button:hover,
  .url button:focus {
+     background-color: var(--clr-font-ok);
+     border-color: var(--clr-font-ok);
+     box-shadow: 0 0 5px 2px var(--clr-font-ok);
+  
+ }
+ .url .delete:hover,
+ .url .delete:focus {
      background-color: var(--extrem-orange);
      border-color: var(--extrem-orange);
      box-shadow: 0 0 5px 2px var(--extrem-orange);
+  
+ }
+ .url .delete:hover::before,
+ .url .delete:focus::before {
+          color: var(--clr-font-light);
+ }
+
+ .url button:hover::before,
+ .url button:focus::before {
+    color: var(--clr-dark);
  }
 
  /* the button in the footer to hide or display the saved urls*/
