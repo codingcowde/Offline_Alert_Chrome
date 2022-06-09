@@ -222,18 +222,18 @@
      display: block;
      position: relative;
      left: 3rem;
-     padding: 1rem;     
-     transition: font-size 300ms ease-in-out, left 300ms ease-in-out;
+     padding: 1rem;          
+     transition: left 300ms ease-in-out;
      color: var(--clr-font-light);
      filter: drop-shadow(1px 1px 1px);
      text-decoration: none;
+     font-size: 1.2rem;
  }
 
  .url:hover a,
- .url:focus a {
-     font-size: 1.2rem;
+ .url:focus a {     
      left: 0rem;
-     font-weight: 600;
+     
  }
 
  .url-muted::before{
@@ -274,8 +274,8 @@
  }
 
 .delete {
-     transition: right 300ms ease-in; 
-     right: -1000rem;     
+     transition: right 300ms ease-in-out 400ms; 
+     right: -10rem;     
  }
 
  .delete::before{
@@ -284,9 +284,8 @@
 
  .mute,
  .muted{
-    transition: top 300ms ease-in; 
-    top: -100vh;    
-    right: 2.8rem;              
+    transition: right 300ms ease-in-out 200ms;     
+    right: -13rem;              
 }
 
 .mute::before{
@@ -298,8 +297,8 @@
 
 
 .settings{
-    transition: right 300ms ease-in; 
-    right: -1000rem;    
+    transition: right 300ms ease-in-out; 
+    right: -16rem;    
     
 }
 .settings::before{
@@ -310,6 +309,13 @@
 .url:hover .settings, 
 .url:focus .settings{     
     right: 5.6rem;              
+}
+.url:hover .mute, 
+ .url:focus .mute,
+ .url:hover .muted, 
+ .url:focus .muted
+{
+    right: 2.8rem;              
 }
 
 .url:hover .settings, 
