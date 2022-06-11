@@ -103,7 +103,6 @@ function save_urls() {
     chrome.storage.sync.set({ "urls": urls });
 }
 
-
 function populate() {
     view = document.getElementById("urls-view");
     if (urls) {
