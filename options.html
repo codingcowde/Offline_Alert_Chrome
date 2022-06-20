@@ -68,15 +68,8 @@
                 <div class="options-list-item">
                     <h2>Refresh timer</h2>
                     <p>Set the interval for checking your pages.</p>
-                    Check pages every <input type="number" value="5" min="2" max="3600" /> minutes.
-                </div>
-                <div class="options-list-item">
-                    <h2>Notification Sound</h2>
-                    <p>
-                        Activate to get a sound whenever we pop you a message.
-                    </p>
-                    <input type="checkbox" name="sound" checked> <label for="sound"> Play sound</label>
-                </div>
+                    Check pages every <input type="number" id="timer_minutes" name="timer_minutes" value="5" min="2" max="3600" /> minutes.
+                </div>               
                 <div class="options-list-item">
                     <h2>Style</h2>      
                     <p> Choose your prefered color scheme. </p>           
@@ -85,6 +78,7 @@
                     <input type="radio" value="light" name="theme" id="light">                
                     <label for="light">Light</label>                         
                 </div>
+                <p id="message" ></p>
                 <div class="button-box">
                     <button id="Cancel">Cancel</button>
                     <button id="Save">Save</button>                    

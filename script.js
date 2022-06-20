@@ -226,3 +226,11 @@ function update_urls() {
         update_url(url);
     });
 }
+
+// Message Listener in a frontend script ????
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {   
+    if(request.type === "play_alarm" ){
+        audio = new Audio('media/dong01.ogg');
+        audio.play()        
+    } 
+});

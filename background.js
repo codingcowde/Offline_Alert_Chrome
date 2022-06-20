@@ -84,7 +84,8 @@ async function check_status(url) {
                 url.status = 0;
             }
             save_urls()
-            push_notification(url);            
+            push_notification(url);       
+         
             
         })
     }
