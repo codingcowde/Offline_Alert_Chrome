@@ -7,9 +7,9 @@ if (toggle_view_btn) {
     toggle_view_btn.addEventListener("click", toggle_view);
 }
 
-let add_btn = document.getElementById("add_url_btn");
-if (add_btn) {
-    add_btn.addEventListener("click", add_url);
+let save_btn = document.getElementById("add_url_btn");
+if (save_btn) {
+    save_btn.addEventListener("click", add_url);
 }
 
 

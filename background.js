@@ -1,8 +1,10 @@
 let urls;
+let settings;
 
 chrome.runtime.onload = function (){
     load_urls()
     check_urls()
+    load_settings()
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {   
@@ -45,14 +47,14 @@ chrome.runtime.onInstalled.addListener(
     })
 
 // setup the timer ToDo make configurable with fixed options 1min 5min 10min 1h
-chrome.alarms.create("5min", {
-    delayInMinutes: 0.5,
-    periodInMinutes: 0.5
+chrome.alarms.create("alarm", {
+    delayInMinutes: settings.interval,
+    periodInMinutes: settings.interval
 });
 
 // register alarm listener
 chrome.alarms.onAlarm.addListener(function (alarm) {
-    if (alarm.name === "5min") {
+    if (alarm.name === "alarm") {
         load_urls()
         check_urls()
     }
@@ -125,5 +127,17 @@ function load_urls(){
     chrome.storage.sync.get("urls", function (result) {
         urls = result.urls
         return result.urls
+    })
+}
+
+
+// functions to read the settings from options
+function load_settings(){
+    chrome.storage.sync.get("settings", function (result) {            
+        settings = result.settings
+        if(result.settings === undefined){
+            settings = {'interval':5, 'theme':'dark'} 
+        }                
+        return result.settings
     })
 }
