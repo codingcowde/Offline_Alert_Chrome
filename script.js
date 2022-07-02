@@ -119,14 +119,26 @@ function populate() {
              "<button class='btn "+class_muted+"' name='" + url.url + "' />"+
              "<button class='btn delete' name='" + url.url + "' />"+
              "</li></ul>"+
-             "<div class='url-settings hidden' id='url-settings-"+url.url+"'>"+
-             "<div>"+
-             "<input type='url' value='"+url.url+"'>"+
-             "<input type='text' value='"+url.name+"'>"+
-             "<input type='url' value='"+url.img+"'>"+
-             "status: "+url.status+             
-             "</div>"+
-             "</div>"+
+                "<div class='url-settings hidden' id='url-settings-"+url.url+"'>"+
+                    "<div>"+
+                        "<div>"+
+                            "<label for='url_"+url.url+"'>Url: </label>"+
+                            "<input type='url' id='url_"+url.url+"' value='"+url.url+"'>"+
+                        "</div><div>"+
+                        "<label for='name_"+url.url+"'>Name: </label>"+
+                            "<input type='text' value='"+url.name+"'>"+
+                        "</div><div>"+
+                            "<label for='favico_"+url.url+"'>Icon: </label>"+
+                            "<input type='url' value='"+url.img+"'>"+
+                        "</div>"+     
+                        "<div>"+     
+                            "<button > Save </button>"+
+                        "</div>"+     
+                        "<div>"+     
+                            "status: "+url.status+             
+                        "</div>"+     
+                    "</div>"+          
+                "</div>"+
              "</div>";
         });
         register_delete_button_events();

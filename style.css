@@ -132,21 +132,47 @@
      padding: 15px;
  }
 
- .add_url * {
+ .add_url *
+ {
      border: none;
  }
 
 .url-settings > div,
- #add_url_form {
-     display: grid;
-     grid-template-columns: auto 32px;
+#add_url_form {
      background-color: var(--clr-dark);
      min-height: 32px;
+ } 
+ #add_url_form {
+    display: grid;
+    grid-template-columns: auto 32px;
  }
- .url-settings input,
- #add_url_form input {
+
+ .url-settings > div {
+    padding: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+ }
+ 
+.url-settings > div > div{
+    display: flex;
+    flex-direction: row;    
+    flex-basis: 100%;
+}
+
+ .url-settings > div > div > input,
+ #add_url_form input {     
      background-color: var(--clr-dark);
      color: var(--clr-font-light);     
+ }
+
+ .url-settings > div > div > input,
+ .url-settings > div > div > button{
+    flex-basis: 100%;
+ }
+
+ .url-settings > div > div > label{
+    flex-basis: 20%;
  }
 
  #add_url_btn {
