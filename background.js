@@ -1,11 +1,8 @@
 let urls;
 let settings;
 
-chrome.runtime.onload = function (){
-    load_urls()
-    check_urls()
-    load_settings()
-}
+
+// todo: hook to options to get updated when options have changed
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {   
     if(request.type === "save_urls" && request.urls){
@@ -19,8 +16,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 });
 
-chrome.runtime.onInstalled.addListener(
-    function () {
+chrome.runtime.onInstalled.addListener(    
+    function () {        
         chrome.storage.sync.get("urls", function (result) {
             if (result) {
                 urls = result.urls;
@@ -42,23 +39,19 @@ chrome.runtime.onInstalled.addListener(
 
                 }]
             }
-            chrome.storage.sync.set({ "urls": urls });
-        })
+            chrome.storage.sync.set({ "urls": urls });            
+        })       
+        load_settings();
+        check_urls();
     })
 
 // setup the timer ToDo make configurable with fixed options 1min 5min 10min 1h
-chrome.alarms.create("alarm", {
-    delayInMinutes: settings.interval,
-    periodInMinutes: settings.interval
-});
-
-// register alarm listener
-chrome.alarms.onAlarm.addListener(function (alarm) {
-    if (alarm.name === "alarm") {
-        load_urls()
-        check_urls()
-    }
-});
+function setup_timer(){
+    chrome.alarms.create("alarm", {    
+        delayInMinutes: 5,
+        periodInMinutes: 5
+    }); 
+}
 
 // iterate urls and run check_status on them
 function check_urls() {      
@@ -86,16 +79,13 @@ async function check_status(url) {
                 url.status = 0;
             }
             save_urls()
-            push_notification(url);       
-         
-            
+            push_notification(url);           
         })
     }
 
 
 // Push Notification
-function push_notification(url) {    
-
+function push_notification(url) { 
     if(url === undefined || url.mute){      
         return;
     }
@@ -129,8 +119,6 @@ function load_urls(){
         return result.urls
     })
 }
-
-
 // functions to read the settings from options
 function load_settings(){
     chrome.storage.sync.get("settings", function (result) {            
@@ -138,6 +126,7 @@ function load_settings(){
         if(result.settings === undefined){
             settings = {'interval':5, 'theme':'dark'} 
         }                
+        settings = result.settings        
         return result.settings
     })
 }
