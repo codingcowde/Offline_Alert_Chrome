@@ -32,7 +32,6 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
     if (alarm.name === "check_urls") {
         load_urls()
         check_urls()
-        consolr.log("checked urls")
     }
 });    
 
