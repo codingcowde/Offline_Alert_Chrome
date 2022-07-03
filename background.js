@@ -11,11 +11,35 @@ function init(){
     init()
 })()
 
-chrome.runtime.onInstalled.addListener(init())
+// add Listeners
+chrome.runtime.onInstalled.addListener(
+    init()
+    )
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        // settings changed msg from options.js        
+        if(request.settings === "updated"){
+            load_settings()
+        }
+        // url added signal from script.js
+        if(request.action === "url_added"){
+            load_urls()
+        }
+    })
+
+// register alarm listener
+chrome.alarms.onAlarm.addListener(function (alarm) {        
+    if (alarm.name === "check_urls") {
+        load_urls()
+        check_urls()
+        consolr.log("checked urls")
+    }
+});    
 
 // setup the timer ToDo make configurable with fixed options 1min 5min 10min 1h
 function setup_timer(minutes){
-    chrome.alarms.create("alarm", {    
+    console.log(minutes)
+    chrome.alarms.create("check_urls", {    
         delayInMinutes: minutes,
         periodInMinutes: minutes
     }); 
@@ -48,7 +72,6 @@ async function check_status(url) {
             push_notification(url);           
         })
     }
-
 
 // Push Notification
 function push_notification(url) { 
@@ -111,7 +134,9 @@ async function load_settings(){
  chrome.storage.sync.get("settings", function (result) {                    
         if(result){
             settings = result.settings
-            setup_timer(Number(result.settings.interval))
+            chrome.alarms.clearAll(()=>{
+                setup_timer(Number(result.settings.interval));
+            })
             //setup_theme(result.settings.theme)            
         }else{
             settings = {'interval':5, 'theme':'dark'};    

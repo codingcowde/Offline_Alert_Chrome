@@ -22,6 +22,7 @@ document.onload = load_settings()
 function save_settings(){            
     settings.interval = document.getElementById('timer_minutes').value
     chrome.storage.sync.set({ "settings": settings });    
+    chrome.runtime.sendMessage({settings: "updated"});
 }
 
 

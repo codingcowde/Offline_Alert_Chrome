@@ -2,6 +2,8 @@ chrome.runtime.onload = refresh()
 
 let urls;
 
+
+
 let toggle_view_btn = document.getElementById("toggle-list-btn");
 if (toggle_view_btn) {
     toggle_view_btn.addEventListener("click", toggle_view);
@@ -38,6 +40,7 @@ function toggle_view() {
 function add_url() {
     // get the value from the input field
     new_url = document.getElementById("new_url").value;        
+    chrome.runtime.sendMessage({action: "url_added"});
 
     // check if input is valid and abort if not
     let expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
