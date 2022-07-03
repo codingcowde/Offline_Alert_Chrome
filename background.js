@@ -1,55 +1,23 @@
+// initialise global urls array
 let urls;
-let settings;
 
+function init(){
+    load_urls();       
+    load_settings();
+    check_urls();
+}
 
-// todo: hook to options to get updated when options have changed
+(() => { 
+    init()
+})()
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {   
-    if(request.type === "save_urls" && request.urls){
-        urls = request.urls;
-        save_urls();        
-    } 
-    if(request.type === "load_urls" && request.urls){
-        const res = load_urls();
-        sendResponse(res);        
-        } 
-
-});
-
-chrome.runtime.onInstalled.addListener(    
-    function () {        
-        chrome.storage.sync.get("urls", function (result) {
-            if (result) {
-                urls = result.urls;
-            } else {
-                /// setting up example urls
-                urls = [{                    
-                    "url": "https://checker.codingcow.de",
-                    "img": "https://checker.codingcow.de/res/img/favicon-32x32.png",
-                    "name": "CHecker.codingcow.de",
-                    "status": 0,
-                    "mute": false
-                },
-                {                    
-                    "url": "https://codingcow.de",
-                    "img": "https://codingcow.de/res/img/favicon-32x32.png",
-                    "name": "codingcow.de",
-                    "status": 0,
-                    "mute": false
-
-                }]
-            }
-            chrome.storage.sync.set({ "urls": urls });            
-        })       
-        load_settings();
-        check_urls();
-    })
+chrome.runtime.onInstalled.addListener(init())
 
 // setup the timer ToDo make configurable with fixed options 1min 5min 10min 1h
-function setup_timer(){
+function setup_timer(minutes){
     chrome.alarms.create("alarm", {    
-        delayInMinutes: 5,
-        periodInMinutes: 5
+        delayInMinutes: minutes,
+        periodInMinutes: minutes
     }); 
 }
 
@@ -70,9 +38,7 @@ async function check_status(url) {
     fetch(url.url)
         .then((response) => {
             url.status = response.status;            
-            save_urls();
-            console.log(url.name+" is live ans shows "+ url.status)         
-          
+            save_urls();          
         })
         .catch(function (err) {            
             if(url.status === undefined) {
@@ -108,25 +74,48 @@ function push_notification(url) {
     chrome.notifications.create(notification_id, notification_options);  
 }
 
+
 // Functions to save, load and delete from local storage
 function save_urls() {
     chrome.storage.sync.set({ "urls": urls });
 }
 
-function load_urls(){
-    chrome.storage.sync.get("urls", function (result) {
-        urls = result.urls
-        return result.urls
-    })
+async function load_urls(){
+     chrome.storage.sync.get("urls", function (result) {
+        if (result) {
+            urls = result.urls;
+        } else {
+            /// setting up example urls
+            urls = [{                    
+                "url": "https://checker.codingcow.de",
+                "img": "https://checker.codingcow.de/res/img/favicon-32x32.png",
+                "name": "CHecker.codingcow.de",
+                "status": 0,
+                "mute": false
+            },
+            {                    
+                "url": "https://codingcow.de",
+                "img": "https://codingcow.de/res/img/favicon-32x32.png",
+                "name": "codingcow.de",
+                "status": 0,
+                "mute": false
+            }]
+        }
+        chrome.storage.sync.set({ "urls": urls });            
+    })       
 }
+
 // functions to read the settings from options
-function load_settings(){
-    chrome.storage.sync.get("settings", function (result) {            
-        settings = result.settings
-        if(result.settings === undefined){
-            settings = {'interval':5, 'theme':'dark'} 
-        }                
-        settings = result.settings        
-        return result.settings
+async function load_settings(){
+ let settings;
+ chrome.storage.sync.get("settings", function (result) {                    
+        if(result){
+            settings = result.settings
+            setup_timer(Number(result.settings.interval))
+            //setup_theme(result.settings.theme)            
+        }else{
+            settings = {'interval':5, 'theme':'dark'};    
+            setup_timer(Number(settings.interval));         
+        }                        
     })
 }
